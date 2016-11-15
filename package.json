@@ -22,5 +22,8 @@
     "mocha": "*",
     "sinon": "*",
     "sinon-chai": "^2.8.0"
+  },
+  "dependencies": {
+    "set-immediate-shim": "^1.0.1"
   }
 }
