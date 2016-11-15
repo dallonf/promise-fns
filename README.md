@@ -30,6 +30,30 @@ var promiseFns = require('promise-fns');
 
 For these functions to work, you will need to have a global `Promise` object that is compatible with the ES6 Promise spec.
 
+## Usage
+
+### fromCallback(cb => fn(...args, cb)) => Promise
+
+Allows you to capture the result of a callback function as a promise.
+
+Example: 
+
+```javascript
+promiseFns.fromCallback(cb => fs.readFile('/batcave/batmobile/schematics', 'utf-8', cb))
+  .then(schematics => build(schematics));
+```
+
+If a callback function returns multiple arguments, the promise will resolve with an array:
+
+```javascript
+function sidekicks(cb) {
+  cb(null, 'alfred', 'robin', 'oracle');
+}
+
+promiseFns.fromCallback(cb => sidekicks(cb))
+  .then(names => console.log(names)) // ['alred', 'robin', 'oracle']
+```
+
 ## License
 
 MIT License
