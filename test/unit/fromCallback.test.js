@@ -7,7 +7,7 @@ describe('fromCallback', function() {
       cb(null, `${arg1}${arg2}`);
     };
     const result = await fromCallback(cb => callbackFn('bat', 'man', cb));
-    assert.equal(result, 'batman');
+    assert.strictEqual(result, 'batman');
   });
 
   it('should return a rejected promise', async function() {
@@ -18,9 +18,17 @@ describe('fromCallback', function() {
     try {
       const result = await fromCallback(cb => callbackFn('bat', 'man', cb));
     } catch (caughtError) {
-      assert.equal(caughtError, err);
+      assert.strictEqual(caughtError, err);
       return;
     }
     assert(false, 'no error caught');
   });
+
+  it('should return an array if the response has multiple arguments', async function() {
+    const callbackFn = (cb) => {
+      cb(null, 'alfred', 'robin', 'oracle');
+    };
+    const result = await fromCallback(cb => callbackFn(cb));
+    assert.deepEqual(result, ['alfred', 'robin', 'oracle']);
+  })
 });
