@@ -34,7 +34,7 @@ For these functions to work, you will need to have a global `Promise` object tha
 
 ### fromCallback(cb => fn(...args, cb)) => Promise
 
-Allows you to capture the result of a callback function as a promise.
+Allows you to capture the result of a Node callback function as a promise. This assumes the Node callback pattern of `function(err, result)`.
 
 Example: 
 
@@ -53,6 +53,21 @@ function sidekicks(cb) {
 promiseFns.fromCallback(cb => sidekicks(cb))
   .then(names => console.log(names)) // ['alred', 'robin', 'oracle']
 ```
+
+
+### toCallback(promise, cb) => Promise
+
+Allows you to handle a Promise with a standard Node callback.
+
+Example:
+
+```javascript
+toCallback(somethingThatReturnsAPromise(), (err, result) => {
+  // Normal Node-style callback
+});
+```
+
+This function will also return a Promise of void when the callback is finished (synchronously) executing. You probably won't need this.
 
 ## License
 
