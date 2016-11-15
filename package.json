@@ -17,8 +17,10 @@
     "babel-preset-latest": "^6.16.0",
     "chai": "*",
     "coveralls": "*",
+    "dirty-chai": "^1.2.2",
     "isparta": "*",
     "mocha": "*",
-    "sinon": "*"
+    "sinon": "*",
+    "sinon-chai": "^2.8.0"
   }
 }

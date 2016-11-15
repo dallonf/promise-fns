@@ -1,3 +1,4 @@
+./test/testHelper.js
 ./test/unit/**/*.test.js
 --reporter spec
 --recursive
