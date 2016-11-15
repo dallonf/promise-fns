@@ -68,6 +68,21 @@ promiseFns.toCallback(somethingThatReturnsAPromise(), (err, result) => {
 
 This function will also return a Promise of void when the callback is finished (synchronously) executing. You probably won't need this.
 
+### alwaysAfter(promise, cb: () => Promise) => Promise
+
+Allow you to insert a handler after a promise, whether it rejects or resolves. This is conceptually similar to a `try/finally` block.
+
+Example:
+
+```javascript
+const stream = openStream();
+return promiseFns.alwaysAfter(readFromStream(stream), () => stream.close());
+```
+
+Returns a promise that will resolve or reject with the value of the `promise` argument. The only exception is if `cb` throws; then that error will propagate normally through Promise rejections.
+
+`cb` can optionally return a promise of its own. In this case, the `alwaysAfter` promise will not resolve until `cb`'s promise. This is useful for asynchronous teardown logic. 
+
 ### unswallowErrors(promise | error) => Promise
 
 **Note: most Promise implementations lately will log unhandled rejections to the console by default. You very likely don't need this for ordinary error handling!**
