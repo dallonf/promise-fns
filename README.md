@@ -54,7 +54,6 @@ promiseFns.fromCallback(cb => sidekicks(cb))
   .then(names => console.log(names)) // ['alred', 'robin', 'oracle']
 ```
 
-
 ### toCallback(promise, cb) => Promise
 
 Allows you to handle a Promise with a standard Node callback.
@@ -62,12 +61,47 @@ Allows you to handle a Promise with a standard Node callback.
 Example:
 
 ```javascript
-toCallback(somethingThatReturnsAPromise(), (err, result) => {
+promiseFns.toCallback(somethingThatReturnsAPromise(), (err, result) => {
   // Normal Node-style callback
 });
 ```
 
 This function will also return a Promise of void when the callback is finished (synchronously) executing. You probably won't need this.
+
+### unswallowErrors(promise | error) => Promise
+
+**Note: most Promise implementations lately will log unhandled rejections to the console by default. You very likely don't need this for ordinary error handling!**
+
+Promises have an annoying habit of capturing all thrown errors and exceptions as their own rejection, and it can be difficult to break out of this. This function takes an error and throws it outside of the control of the Promise implementation so that it's simply an unhandled exception. You can use it as a `catch` handler: 
+
+Example:
+
+```javascript
+  doAThing()
+    .then(doSomethingElse)
+    .catch(promiseFns.unswallowErrors)
+```
+
+You can also wrap the promise in the call:
+
+```javascript
+  promiseFns.unswallowErrors(doAThing().then(doSomethingElse));
+```
+
+Or use it outside of promises entirely...
+
+```javascript
+  // Your collaborators may not like you if you do things like this often. 
+  try {
+    promiseFns.unswallowErrors(new Error("don't catch me!"));
+  } catch (err) {
+    // won't be caught
+  }
+```
+
+This function will also a return a Promise that resolves after any error has been raised. (or immediately, if there was no error to handle)
+
+It's worth nothing that `toCallback` uses this behind the scenes to avoid errors within the callback being swallowed.
 
 ## License
 
