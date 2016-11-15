@@ -1,7 +1,6 @@
 # promise-fns
 
 ![Build Status](https://img.shields.io/travis/dallonf/promise-fns.svg)
-![Coverage](https://img.shields.io/coveralls/dallonf/promise-fns.svg)
 ![Downloads](https://img.shields.io/npm/dm/promise-fns.svg)
 ![Downloads](https://img.shields.io/npm/dt/promise-fns.svg)
 ![npm version](https://img.shields.io/npm/v/promise-fns.svg)

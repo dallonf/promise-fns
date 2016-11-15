@@ -8,7 +8,6 @@
   "license": "MIT",
   "scripts": {
     "compile": "babel src --out-dir lib",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "prepublish": "npm run compile",
     "test": "babel-node ./node_modules/.bin/isparta cover _mocha"
   },
