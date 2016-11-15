@@ -1,10 +1,17 @@
 export default function fromCallback(fn) {
   return new Promise((resolve, reject) => {
-    fn((err, result) => {
+    fn((err, ...results) => {
       if (err) {
         return reject(err);
       }
-      resolve(result);
+      
+      if (results.length === 1) {
+        // Common case, only one result
+        resolve(results[0]);
+      } else {
+        // Handle multiple results
+        resolve(results);
+      }
     });
   });
 }
