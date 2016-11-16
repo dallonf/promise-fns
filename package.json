@@ -1,7 +1,7 @@
 {
   "name": "promise-fns",
   "description": "Helper functions that I always seem to need when working with Promises",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "main": "lib/index.js",
   "author": "dallonf",
   "repository": "dallonf/promise-fns",
