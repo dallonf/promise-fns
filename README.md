@@ -22,7 +22,7 @@ And include in your project:
 
 ```javascript
 // ES6
-import promiseFns from 'promise-fns';
+import * as promiseFns from 'promise-fns';
 // CommonJS
 var promiseFns = require('promise-fns');
 ```
@@ -121,7 +121,7 @@ It's worth nothing that `toCallback` uses this behind the scenes to avoid errors
 
 MIT License
 
-Copyright (c) 2016 Dallon Feldner
+Copyright (c) 2021 Dallon Feldner
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
