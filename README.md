@@ -1,3 +1,7 @@
+# NOTICE: DEPRECATED
+
+I no longer use this library, and I will no longer be maintaining it. Fortunately, most of these functions are now obsolete in modern JavaScript runtimes.
+
 # promise-fns
 
 ![Build Status](https://img.shields.io/travis/dallonf/promise-fns.svg)
@@ -22,9 +26,9 @@ And include in your project:
 
 ```javascript
 // ES6
-import * as promiseFns from 'promise-fns';
+import * as promiseFns from "promise-fns";
 // CommonJS
-var promiseFns = require('promise-fns');
+var promiseFns = require("promise-fns");
 ```
 
 For these functions to work, you will need to have a global `Promise` object that is compatible with the ES6 Promise spec.
@@ -35,22 +39,26 @@ For these functions to work, you will need to have a global `Promise` object tha
 
 Allows you to capture the result of a Node callback function as a promise. This assumes the Node callback pattern of `function(err, result)`.
 
-Example: 
+Example:
 
 ```javascript
-promiseFns.fromCallback(cb => fs.readFile('/batcave/batmobile/schematics', 'utf-8', cb))
-  .then(schematics => build(schematics));
+promiseFns
+    .fromCallback((cb) =>
+        fs.readFile("/batcave/batmobile/schematics", "utf-8", cb),
+    )
+    .then((schematics) => build(schematics));
 ```
 
 If a callback function returns multiple arguments, the promise will resolve with an array:
 
 ```javascript
 function sidekicks(cb) {
-  cb(null, 'alfred', 'robin', 'oracle');
+    cb(null, "alfred", "robin", "oracle");
 }
 
-promiseFns.fromCallback(cb => sidekicks(cb))
-  .then(names => console.log(names)) // ['alred', 'robin', 'oracle']
+promiseFns
+    .fromCallback((cb) => sidekicks(cb))
+    .then((names) => console.log(names)); // ['alred', 'robin', 'oracle']
 ```
 
 ### toCallback(promise, cb) => Promise
@@ -61,7 +69,7 @@ Example:
 
 ```javascript
 promiseFns.toCallback(somethingThatReturnsAPromise(), (err, result) => {
-  // Normal Node-style callback
+    // Normal Node-style callback
 });
 ```
 
@@ -80,37 +88,35 @@ return promiseFns.alwaysAfter(readFromStream(stream), () => stream.close());
 
 Returns a promise that will resolve or reject with the value of the `promise` argument. The only exception is if `cb` throws; then that error will propagate normally through Promise rejections.
 
-`cb` can optionally return a promise of its own. In this case, the `alwaysAfter` promise will not resolve until `cb`'s promise. This is useful for asynchronous teardown logic. 
+`cb` can optionally return a promise of its own. In this case, the `alwaysAfter` promise will not resolve until `cb`'s promise. This is useful for asynchronous teardown logic.
 
 ### unswallowErrors(promise | error) => Promise
 
 **Note: most Promise implementations lately will log unhandled rejections to the console by default. You very likely don't need this for ordinary error handling!**
 
-Promises have an annoying habit of capturing all thrown errors and exceptions as their own rejection, and it can be difficult to break out of this. This function takes an error and throws it outside of the control of the Promise implementation so that it's simply an unhandled exception. You can use it as a `catch` handler: 
+Promises have an annoying habit of capturing all thrown errors and exceptions as their own rejection, and it can be difficult to break out of this. This function takes an error and throws it outside of the control of the Promise implementation so that it's simply an unhandled exception. You can use it as a `catch` handler:
 
 Example:
 
 ```javascript
-  doAThing()
-    .then(doSomethingElse)
-    .catch(promiseFns.unswallowErrors)
+doAThing().then(doSomethingElse).catch(promiseFns.unswallowErrors);
 ```
 
 You can also wrap the promise in the call:
 
 ```javascript
-  promiseFns.unswallowErrors(doAThing().then(doSomethingElse));
+promiseFns.unswallowErrors(doAThing().then(doSomethingElse));
 ```
 
 Or use it outside of promises entirely...
 
 ```javascript
-  // Your collaborators may not like you if you do things like this often. 
-  try {
+// Your collaborators may not like you if you do things like this often.
+try {
     promiseFns.unswallowErrors(new Error("don't catch me!"));
-  } catch (err) {
+} catch (err) {
     // won't be caught
-  }
+}
 ```
 
 This function will also a return a Promise that resolves after any error has been raised. (or immediately, if there was no error to handle)
